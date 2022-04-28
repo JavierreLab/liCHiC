@@ -8,24 +8,28 @@ PCHi-C is a 3C method to detect the promoter interactome of a given sample. For 
 
 * [CHiCAGO: Robust Detection of DNA Looping Interactions in Capture Hi-C data](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-0992-2)
 
+* [Detecting chromosomal interactions in Capture Hi-C data with CHiCAGO and companion tools](https://www.nature.com/articles/s41596-021-00567-5)
+
 ## Dependencies
 
-* [HiCUP](https://www.bioinformatics.babraham.ac.uk/projects/hicup/)
+* [HiCUP](https://www.bioinformatics.babraham.ac.uk/projects/hicup/) (0.8.2)
 * [Chicago R Package](https://bioconductor.org/packages/release/bioc/html/Chicago.html)  
+* bowtie2 (2.3.2)
+* R (>3.6)
 
 **Note**: Check all dependencies of each software
 
 ## Summary of the workflow
 
 1.  **Mapping and filtering**: HiCUP
-2.  **Capture Efficiency**: in-house script by Steven Wingett
+2.  **Capture Efficiency**: HiCUP miscellaneous script
 3.  **Interaction calling**: Chicago
 
 ## 1. Mapping and Filtering (HiCUP)
 
 #### Pre-steps
 
-To run HiCUP first we need to prepare several files: genome digest and bowtie2 index. To generate these files we need to download the reference genome from Ensembl repository, in our case we use the latest release for the version [GRCh37](https://ftp.ensembl.org/pub/grch37/current/fasta/homo_sapiens/dna/).
+To run HiCUP first we need to prepare several files: genome digest and bowtie2 index. To generate these files we need to download the reference genome from Ensembl repository, in our case we use the release 104 (03/2021) for the version [GRCh38](http://ftp.ensembl.org/pub/release-104/fasta/homo_sapiens/dna/).
 
 * **Genome Digest**
 
@@ -40,7 +44,7 @@ hicup_digester --genome Human_GRCh37 --re1 A^AGCTT,HindIII *.fa
 To run HiCUP we need a genome index and since HiCUP works both with bowtie and bowtie2, we can choose between the two, in our case we use bowtie2 because it's faster and allow parallelization. So to perform the genome indexing we used the ```bowtie2-build``` function, which takes the fasta files of the reference genome and indexes them.
 
 ```bash
-bowtie2-build 1.fa,2.fa,...,MT.fa Human_GRCh37
+bowtie2-build 1.fa,2.fa,...,MT.fa Human_GRCh38
 ```
 
 #### Running HiCUP
@@ -87,7 +91,7 @@ Digest: Digest_Human_genome_HindIII_None_12-32-06_15-04-2021.txt
 Format: 
 
 #Maximum di-tag length (optional parameter)
-Longest: 800
+Longest: 1000
 
 #Minimum di-tag length (optional parameter)
 Shortest: 150
@@ -110,14 +114,14 @@ This give us a filtered bam file with the valid unique di-tags (paired reads) an
 
 ## 2. Capture Efficiency
 
-Once we have the bam file from HiCUP we have to assess for the capture efficiency, to do this we split the reads that are captured by the capture system and the non-captured reads. To perform this step we use an [in-house script](https://github.com/JavierreLab/PCHiC/blob/7a1dbafe2a1a2f9aa0dcc0f5fd1f813160b01526/scripts/get_captured_reads) provided by Steven Wingett.
+Once we have the bam file from HiCUP we have to assess for the capture efficiency, to do this we split the reads that are captured by the capture system and the non-captured reads. To perform this step we use a miscellaneous script inside HiCUP.
 
 To use this script we need the bam file from HiCUP and a bed file with the coordinates of the captured restriction fragments.
 
-For this purpose we have generated a [bed file](https://drive.google.com/file/d/1uJrN9cpKV6xZQK_1rKWFJuZFmXRZnzA2/view?usp=sharing) with the coordinates of the captured fragments and also the annotation for each fragment, this extra information will be necessary for the other steps in further analysis.
+For this purpose we have generated a bed file with the coordinates of the captured fragments and also the annotation for each fragment, this extra information will be necessary for the other steps in further analysis.
 
 ```bash
-perl get_captured_reads --baits baits.bed hicup.bam
+perl HICUP/0.8.2/Misc/hicup_capture --baits baits.bed hicup.bam
 ```
 
 With this step we get a bam file with only those read with at least one end captured.
@@ -179,22 +183,13 @@ outprefix <- "sample_chicago"
 ## Loading library
 library(Chicago)
 
-## This step is not specify in the runChicago.R script, but depending on your organism you should use a setting file or another one
-if (organism == "human") 
-{
-  settingsFile <- file.path(weightsPath, "humanMacrophage-7reps.settings")
-}
-if (organism == "Mus_musculus") 
-{
-  settingsFile <- file.path(weightsPath, "mESC-2reps.settings")
-}
 
 ## Determining chinput file path
 chinput <- list.files(DataPath,full.names = T, pattern= "chinput")
 
 
-## Setting experiment with the DesignDir and the settingsFile
-cd <- setExperiment(designDir = DesignDir, settingsFile = settingsFile)
+## Setting experiment with the DesignDir
+cd <- setExperiment(designDir = DesignDir)
 
 ## Setting the seed to be reproducible (this parameter is not controlled in runChicago.R)
 cd@settings$brownianNoise.seed <- 103
