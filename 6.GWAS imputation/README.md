@@ -12,12 +12,13 @@ For an in depth explanation on usage of the scripts, read [this](https://github.
 * tabix
 * bgzip
 * Chicago R package
+* Only for generating the plots: Pyhton3 with pandas (>= 1.2.3) and matplotlib (>3.5.0)
 
 ## Summary of workflow:
 1. Format Summary Statistics
-2a. Poor Man's Imputation and Compute Posterior Probability
-2b. Blockshifter
-3. Plot
+2. Poor Man's Imputation and Compute Posterior Probability
+3. Blockshifter
+4. Plots
 
 
 
@@ -46,11 +47,12 @@ Summary Statistics could have been generated in many different formats and genom
 ./1_Format_SummaryStatistics.sh /path/to/work/dir ChronicLymphocytic_UKBB_20001_1055-gwas.imputed_v3.both_sexes.Build37.tsv
 ```
 
-## 2a.1. Poor Man's Imputation
+## 2a. Poor Man's Imputation and Compute Posterior Probability
+### 2a.1. Poor Man's Imputation
 Poor Man's imputation is performed to associate more variants to the trait of interest, taking into account LD and R-squared thresholds.
 For every LD block, variants from the reference panel (1KG) which are not associated to the trait are given the p-value of the variant (already associated to the trait at hand) with which it is in largest linkage disequilibrium. If the minimum R-squared (o.6) is not achieved, the two variants are not similar enough and therefore you cannot predict one pval with the other, so imputation is not possible. Percentage of successful PMI tends to be about 60%. Once PMI can been computed the posterior probability of all the associated variants to the trait at hand may be computed. The posterior probability is computes using wakefield's implementation - explained before. 
 
-## 2a.2. Compute Posterior Probability 
+### 2a.2. Compute Posterior Probability 
 #### Why compute a posterior probability?  
 These posterior probabilities (PPi) are calculated for each SNP in a trait's summary statistic to take into account Linkage Disequilibrium (LD refers to the presence of a statistical association between allelic variants within a population due to the history of recombination, mutation, and selection in a genomic region) assuming that there is only one "causal" variant within a region, while the rest have no biological impact.  
 
@@ -79,4 +81,12 @@ Rscript 2b_blockshifter_GRCh38.R  path/to/liHiC.peakmatrix.txt /path/to/gwasppi/
 ## Acknowledgments  
 * [Olly Burren ](https://github.com/ollyburren/CHIGP/tree/master/R)  
 * My lab mates :)
+
+## 3. Plots
+### 3a. Zscore plot Myeloid vs. Lymphoid
+Use the jupyter notebook **3a_Zscore_plot_MvsL.ipynb** modifying the desired arguments. For using this script is necessary to have installed python3 with the libraries pandas (>= 1.2.3) and matplotlib (>3.5.0).
+
+### 3b. Heatmap Blockshifter Z-score
+Use the script **3_plot_heatmap_blockshifter.R** modifying the desired arguments.
+
 
