@@ -1,6 +1,6 @@
-# GWAS Tissue Set Enrichment Analysis PCHi-C  
+# GWAS Tissue Set Enrichment Analysis liCHi-C  
 
-Enrichment of GWAS signals in PCHi-C interacting regions have to be tested to confirm the tissue and context are relevant to disease  
+Enrichment of GWAS signals in liCHi-C interacting regions have to be tested to confirm the tissue and context are relevant to disease  
 
 For a step to step tutorial, read [this](https://github.com/JavierreLab/Gwas_TissueSetEnrich/blob/main/example/README.md)  
 For an in depth explanation on usage of the scripts, read [this](https://github.com/JavierreLab/Gwas_TissueSetEnrich/blob/main/scripts/README.md)
