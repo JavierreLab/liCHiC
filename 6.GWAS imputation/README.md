@@ -38,7 +38,7 @@ Easily adaptable to other supercomputers (CSUC) with the same SLURM and GREASY u
 ```
 makePeakMatrix.R --twopass --notrans <rds_table> <out_prefix>
 ```
-* Optionally, compute your own "approximate LD blocks" BED file based on recombination frequency data. I recommend you use the file **1cM_LDblocks_GRCh38.bed** obtained as explained [here].
+* Optionally, compute your own "approximate LD blocks" BED file based on recombination frequency data. I recommend you use the file **1cM_LDblocks_GRCh38.bed** obtained as detailed [here](https://carrerasresearch-my.sharepoint.com/:f:/g/personal/plopez_carrerasresearch_org/EgvlXxvJdzlGrjJxwOEf6n4B0eJQNQTw3Zq3Ka02Yw6ewQ?e=qz68eV).
 
 ## 1. Format Summary Statistics
 Summary Statistics could have been generated in many different formats and genome assemblies. For this reason, after downloading each one, best practice is to format the file. Script for this: **1_Format_SummaryStatistics.sh**, which calls **1_format_ss.R**. 
