@@ -12,7 +12,7 @@ For an in depth explanation on usage of the scripts, read [this](https://github.
 * tabix
 * bgzip
 * Chicago R package
-* Only for generating the plots: Pyhton3 with pandas (>= 1.2.3) and matplotlib (>3.5.0)
+* Only for generating the plots: Pyhton3 with pandas (>= 1.2.3) and matplotlib (>=3.5.0)
 
 ## Summary of workflow:
 1. Format Summary Statistics
@@ -41,18 +41,22 @@ makePeakMatrix.R --twopass --notrans <rds_table> <out_prefix>
 * Optionally, compute your own "approximate LD blocks" BED file based on recombination frequency data. I recommend you use the file **1cM_LDblocks_GRCh38.bed** obtained as explained [here].
 
 ## 1. Format Summary Statistics
-Summary Statistics could have been generated in many different formats and genome assemblies. For this reason, after downloading each one, best practice is to format the file. Script for this - **1_Format_SummaryStatistics.sh, which calls 1_format_ss.R**. Summary Statistics from GWAS Catalog in the harmonized format don't need to be liftover, they are already in the genome assembly GRCh38. However, the ones from the UKBB are in the GRCh37 and need to be liftover to GRCh38.
+Summary Statistics could have been generated in many different formats and genome assemblies. For this reason, after downloading each one, best practice is to format the file. Script for this: **1_Format_SummaryStatistics.sh**, which calls **1_format_ss.R**. 
+The Summary Statistics from the GWAS Catalog in the harmonized format are already in the genome assembly GRCh38. The ones from the UKBB are in the GRCh37 and, therefore, they have to be liftover to GRCh38.
 ```
 ./1_Format_SummaryStatistics.sh [-q -c -l -h] <Work.Dir> <Sum.Stats>
+# Example:
 ./1_Format_SummaryStatistics.sh /path/to/work/dir ChronicLymphocytic_UKBB_20001_1055-gwas.imputed_v3.both_sexes.Build37.tsv
 ```
 
 ## 2a. Poor Man's Imputation and Compute Posterior Probability
 ### 2a.1. Poor Man's Imputation
 Poor Man's imputation is performed to associate more variants to the trait of interest, taking into account LD and R-squared thresholds.
-For every LD block, variants from the reference panel (1KG) which are not associated to the trait are given the p-value of the variant (already associated to the trait at hand) with which it is in largest linkage disequilibrium. If the minimum R-squared (o.6) is not achieved, the two variants are not similar enough and therefore you cannot predict one pval with the other, so imputation is not possible. Percentage of successful PMI tends to be about 60%. Once PMI can been computed the posterior probability of all the associated variants to the trait at hand may be computed. The posterior probability is computes using wakefield's implementation - explained before. 
+For every LD block, variants from the reference panel (1KG) which are not associated to the trait are given the p-value of the variant (already associated to the trait at hand) with which it is in largest linkage disequilibrium. If the minimum R-squared (0.6) is not achieved, the two variants are not similar enough and therefore you cannot predict one pval with the other, so imputation is not possible. Percentage of successful PMI tends to be about 60%. 
 
 ### 2a.2. Compute Posterior Probability 
+Once PMI have been computed, the posterior probability of all the associated variants to the trait at hand may be computed. The posterior probability is computes using wakefield's implementation.
+
 #### Why compute a posterior probability?  
 These posterior probabilities (PPi) are calculated for each SNP in a trait's summary statistic to take into account Linkage Disequilibrium (LD refers to the presence of a statistical association between allelic variants within a population due to the history of recombination, mutation, and selection in a genomic region) assuming that there is only one "causal" variant within a region, while the rest have no biological impact.  
 
@@ -60,14 +64,17 @@ To compute a PPi we need the following information:
 * **p-Value** The p-value of the variant in the summary statistic tells us whether the variant is or not associated to the particular trait at hand
 * **Minor Allele Frequency** MAF of the variant is frequency at which the less common allele of a variable site is found in a population.  
 * **Sample Size** Number of individuals which partook in the study
-* **Type of Study** Was the study a case/control (Rheumatoid Arthitis) or a quantitative study (Platelet Volume)? Calculation of variance shrinkage changes depending on study type
+* **Type of Study** Was the study a case/control (e.g., Rheumatoid Arthitis) or a quantitative study (e.g., Platelet Volume)? Calculation of variance shrinkage changes depending on study type
 * **Proportion of Cases** Proportion of individuals which were cases. If study is quantitative, proportion = 1
 * **Prior Probability**  
 * **LD Blocks** Posterior Probability must be calculated taking into account LD assuming that there is only one "causal" variant within a block  
 
+Info on Sample size and proportion of cases may be found at the source of the Summary Statistics.
+
 Steps 1 and 2 are performed with the same script **2a_compute_pmi_GRCh38.R**:
 ```
 Rscript 2a_compute_pmi_GRCh38.R <Chromosome> <Summary.Statistics> <Gwas.Type> <Sample.Size> <Proportion.Cases> <LD.Regions> <Out.Dir> <Tabix.Bin = /apps/HTSLIB/1.8/INTEL/bin/tabix>
+# Example:
 Rscript 2a_compute_pmi_GRCh38.R 22 /path/to/ChronicLymphocytic_UKBB_20001_1055.bed.bgz CC 361141 0.000656253 /path/to/1cM_LDblocks_GRCh38.bed /path/to/out/dir/ /path/to/tabix/bin
 ```
 
@@ -75,6 +82,7 @@ Rscript 2a_compute_pmi_GRCh38.R 22 /path/to/ChronicLymphocytic_UKBB_20001_1055.b
 Compute z-scores for enrichment of variants associated to a particular trait within promoter-interacting regions taking into account correlation structure in both GWAS and PIR datasets. (Examines GWAS signal enrichment at PIRs overcoming LD and interaction fragment correlation). 
 ```
 Rscript 2b_blockshifter_GRCh38.R  <PeakMatrix> <Gwas.PPi> <Test.Set> <Control.Set> <Metric> <Out.Dir>
+# Example:
 Rscript 2b_blockshifter_GRCh38.R  path/to/liHiC.peakmatrix.txt /path/to/gwasppi/CLL_ukbb.pmi Ery_500K,MK_500K,Mon_500K,nB_1M,nCD4_500K,nCD8_500Kmix,Ery_cambridge,MK_cambridge,Mon_cambridge,nB_cambridge,nCD4_cambridge,nCD8_cambridge,nB_100K,nB_250K,nB_500K,nB_50K,CLP_WT_merge_45,CMP_WT_merge_45,HSC_WT_merge_15 EP_cambridge ppi /path/to/out/dir
 ```
 
