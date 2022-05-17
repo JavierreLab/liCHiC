@@ -86,10 +86,6 @@ Rscript 2b_blockshifter_GRCh38.R  <PeakMatrix> <Gwas.PPi> <Test.Set> <Control.Se
 Rscript 2b_blockshifter_GRCh38.R  path/to/liHiC.peakmatrix.txt /path/to/gwasppi/CLL_ukbb.pmi Ery_500K,MK_500K,Mon_500K,nB_1M,nCD4_500K,nCD8_500Kmix,Ery_cambridge,MK_cambridge,Mon_cambridge,nB_cambridge,nCD4_cambridge,nCD8_cambridge,nB_100K,nB_250K,nB_500K,nB_50K,CLP_WT_merge_45,CMP_WT_merge_45,HSC_WT_merge_15 EP_cambridge ppi /path/to/out/dir
 ```
 
-## Acknowledgments  
-* [Olly Burren ](https://github.com/ollyburren/CHIGP/tree/master/R)  
-* My lab mates :)
-
 ## 3. Plots
 ### 3a. Zscore plot Myeloid vs. Lymphoid
 Use the jupyter notebook **3a_Zscore_plot_MvsL.ipynb** modifying the desired arguments. For using this script is necessary to have installed python3 with the libraries pandas (>= 1.2.3) and matplotlib (>3.5.0).
@@ -98,3 +94,6 @@ Use the jupyter notebook **3a_Zscore_plot_MvsL.ipynb** modifying the desired arg
 Use the script **3_plot_heatmap_blockshifter.R** modifying the desired arguments.
 
 
+## Acknowledgments  
+* [Olly Burren ](https://github.com/ollyburren/CHIGP/tree/master/R)  
+* My lab mates :)
