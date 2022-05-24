@@ -1,11 +1,9 @@
-# RunAutoClass  
+# Run AutoClass  
 
 AutoClass is an unsupervised Bayesian classification system that seeks a maximum posterior probability classification.  
 It can be found in the following link: https://ti.arc.nasa.gov/tech/rse/synthesis-projects-applications/autoclass/autoclass-c/  
 
 ## Credits
-
-https://ti.arc.nasa.gov/tech/rse/synthesis-projects-applications/autoclass/autoclass-c/
 
 In this pipeline we will be using the R wrapper of the software, which was created at the Babraham Institute (Sven Sewitz). The whole pipeline is an adaptation of the scripts shared by Sven with Javierre Lab.
 
@@ -17,8 +15,8 @@ The calculation of Cluster Specificity Score is based on the [scripts generated 
 We have what we call a peakmatrix. This is a number matrix, with rows representing PCHi-C interactions and columns representing cell type (+ metadata describing the interaction i.e. coordinates of both ends of this interaction in the first 11 columns). In this matrix we have the interactions that have been found statistically significant by CHiCAGO in at least one of the cell types present in the matrix. An interaction is found significant when the chicago score >= 5. 
 In the example folder we may find a peak matrix of dimensions 728,838 rows (interactions) by 28 columns (11 being metadata and the remaining 17 corresponding to cell types. This peakmatrix is originally from **Javierre et al. Cell 2016**. 
 
-For a step to step tutorial, read [this](https://github.com/JavierreLab/RunAutoClass/blob/main/example/README.md)  
-For an in depth explanation of the usage of the scripts, read [this](https://github.com/JavierreLab/RunAutoClass/blob/main/scripts/README.md)
+For a step to step tutorial, read [this](https://github.com/JavierreLab/liCHiC/tree/main/2.AutoClass/example/README.md)  
+For an in depth explanation of the usage of the scripts, read [this](https://github.com/JavierreLab/liCHiC/tree/main/2.AutoClass/scripts/README.md)
   
 #### Dependencies
 * Autoclass Software - [link](https://ti.arc.nasa.gov/tech/rse/synthesis-projects-applications/autoclass/autoclass-c/)
@@ -156,8 +154,6 @@ This will be based on mean genomic distance, name of however the hierchical clus
 
 4) Plot generation:  
 Plot will be saving in current working directory with same basename as that of the project_name.  
-
-![Image of Sc Heatmap](Sc_heatmap.png)
   
   
 #### Interactions Heatmap
@@ -175,7 +171,7 @@ Plot will be saving in current working directory with same basename as that of t
  This will be based on mean genomic distance, name of however the hierchical clustering orders them  
  
  4) Excluding clusters:
- This is optional. You may exlude a large (uninformative )cluster from the visualisation to make it more appealing  
+ This is optional. You may exlude a large (uninformative) cluster from the visualisation to make it more appealing  
  
  5) Plot generation:  
  Sourced function from one of sven's scripts called *plot_CRM_heatmap.R*. In summary,this script plots individual heatmaps for each cluster of interactions, where the interactions are ordered by herarchical clustering. All individual clusterings (one for each cluster/class defined by autoclass C) are then "pasted" together  
