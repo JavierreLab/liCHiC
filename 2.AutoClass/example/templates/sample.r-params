@@ -1,0 +1,3 @@
+xref_class_report_att_list = 0, 1, 2 
+report_mode = "data" 
+comment_data_headers_p = true 

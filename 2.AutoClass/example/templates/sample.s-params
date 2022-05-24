@@ -1,0 +1,7 @@
+start_fn_type = "block"
+randomize_random_p = false
+rel_error = 0.1
+min_report_period = 30000
+force_new_search_p = true
+break_on_warnings_p = false
+max_duration = 9720
