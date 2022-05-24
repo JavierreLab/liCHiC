@@ -5,13 +5,19 @@ Enrichment of GWAS signals in liCHi-C interacting regions have to be tested to c
 For a step to step tutorial, read [this](https://github.com/JavierreLab/Gwas_TissueSetEnrich/blob/main/example/README.md)  
 For an in depth explanation on usage of the scripts, read [this](https://github.com/JavierreLab/Gwas_TissueSetEnrich/blob/main/scripts/README.md)
 
-#### Dependencies
+## Credits
+
+The method and software was co-developed by [Chris Wallace](http://chr1swallace.github.io/) and [Olly Burren](http://ollyburren.github.io/), and presented in [Javierre et al., 2016](https://doi.org/10.1016/j.cell.2016.09.037).
+
+The scripts in this repository have been adapted from the original ones from [CHIGP](https://github.com/ollyburren/CHIGP).
+
+### Dependencies
 
 * R
 * liftover
 * tabix
 * bgzip
-* Chicago R package
+* CHiCAGO R package
 * Only for generating the plots: Pyhton3 with pandas (>= 1.2.3) and matplotlib (>=3.5.0)
 
 ## Summary of workflow:
@@ -20,13 +26,11 @@ For an in depth explanation on usage of the scripts, read [this](https://github.
 3. Blockshifter
 4. Plots
 
-
-
 ## Workflow
-This is built to work in marenostrum only, not in local, as it requires too much computational energy and would not work in local.  
-Easily adaptable to other supercomputers (CSUC) with the same SLURM and GREASY use. 
+This is built to work only in the supercomputer Marenostrum, not in local, as it requires too much computational energy and would not work in local.  
+Easily adaptable to other supercomputers (e.g., CSUC) with the same SLURM and GREASY use. 
 
-#### Prerequisits
+#### Requirements
 
 * Download reference genotypes from 1000Genome project [version GRCh38](http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000_genomes_project/release/20190312_biallelic_SNV_and_INDEL/). Filter by sample ancestry (e.g. EUR) and index filtered reference genotype using tabix for faster reading. Script for this - **0_Download1KG_GRCh38.sh**
 
