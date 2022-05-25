@@ -1,6 +1,6 @@
-# PCHi-C (Promoter Capture Hi-C)
+# liCHi-C (low input Capture Hi-C)
 
-PCHi-C is a 3C method to detect the promoter interactome of a given sample. For a complete understanding of both the experimental protocol and the computational pipeline we recommend reading the following papers:
+liCHi-C is a 3C method adapted from PCHi-C to detect the promoter interactome of a given sample. For a complete understanding of both the experimental protocol and the computational pipeline we recommend reading the following papers:
 
 * [Promoter Capture Hi-C: High-resolution, Genome-wide Profiling of Promoter Interactions](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6102006/pdf/jove-136-57320.pdf)
 
