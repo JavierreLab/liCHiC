@@ -13,9 +13,9 @@ This analysis computes enrichment of different histone marks from ChIP-seq in ta
 
 The first step of the analysis is to prepare the data in the proper format to be analysed.
 
-Basically, like the ChAs analysis, we need 2 type of data, but in this case in the same format. We need 2 set of regions to compute the enrichment of one set over the other. The first set of regions came from our liCHi-C data, these are the nodes of the network of interest, for example, the other-end of the P-OE subnetwork, or only the Promoters of this regions. The other set of regions is the regions obtained from the ChIP-seq analisis.
+Basically, like the ChAs analysis, we need 2 type of data, but in this case in the same format. We need 2 set of regions to compute the enrichment of one set over the other. The first set of regions came from our liCHi-C data, these are the nodes of the network of interest, for example, the other-end of the P-OE subnetwork, or only the Promoters of these regions. The other set of regions is the regions obtained from the ChIP-seq analysis.
 
-In the article we computed the enrichment of both the Promoter and the Other Ends, separately, clasifying the nodes based on the expression of the genes in the case of Promoter, and the interacting gene in the case of Other Ends.
+In the article we computed the enrichment of both the Promoter and the Other Ends, separately, classifying the nodes based on the expression of the genes in the case of Promoter, and the interacting gene in the case of Other Ends.
 
 To prepare the data we need to transform the coordinates of both sets to GenomicRanges objects.
 
@@ -58,7 +58,7 @@ So we have 2 GenomicRanges list, one with the coordinates from liCHi-C and the o
 
 ## 2. Computing Enrichment
 
-The enrichment is computed using a permutation test that is implemented in the package [regioneR](https://bioconductor.org/packages/3.16/bioc/html/regioneR.html). But for doing it simultaniously for several sets against several sets, regioneReloaded has been developed.
+The enrichment is computed using a permutation test that is implemented in the package [regioneR](https://bioconductor.org/packages/3.16/bioc/html/regioneR.html). But for doing it simultaneously for several sets against several sets, regioneReloaded has been developed.
 
 
 ```R
