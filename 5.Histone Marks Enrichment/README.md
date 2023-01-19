@@ -6,7 +6,7 @@ This analysis computes enrichment of different histone marks from ChIP-seq in ta
 ## Summary of the workflow
 
 1.  **Preparing Data**
-2.  **Computing Enrichement**: [regioneReloaded](https://bioconductor.org/packages/release/bioc/html/regioneReloaded.html)
+2.  **Computing Enrichment**: [regioneReloaded](https://bioconductor.org/packages/release/bioc/html/regioneReloaded.html)
 
 
 ## 1. Preparing Data
