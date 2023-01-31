@@ -49,7 +49,7 @@ sambamba sort -t $THREADS -o $OUTDIR/$NAME.sort.bam $OUTDIR/$NAME.bam
 sambamba index -t $THREADS -p $OUTDIR/$NAME.bam
 ```
 
-## 2. Filtering (samtools and sambamba)
+## 3. Filtering (samtools and sambamba)
 
 The filtering steps is the part were we filter out reads based on different criteria. We follow the criteria established by the ENCODE Consortium in their Data Standards: [link](https://docs.google.com/document/d/1lG_Rd7fnYgRpSIqrIfuVlAz2dW1VaSQThzk836Db99c/edit#)
 
@@ -103,3 +103,23 @@ sambamba view -h -t $THREADS -f bam -F $FILT_ARG ${PATH_PREFIX}.markdup.bam | sa
 samtools stats ${PATH_PREFIX}.filt.nodup.bam > ${PATH_PREFIX}.2e_markdup.stats
 samtools flagstat ${PATH_PREFIX}.filt.nodup.bam > ${PATH_PREFIX}.3e_markdup.flagstat
 ```
+## 4. Coverage (DeepTools)
+
+This step is just for visualization purposes,we generate a bigwig file with the profile of our ChIP-seqs.
+
+```bash
+bamCoverage --binSize 10 -b ${PATH_PREFIX}.filt.nodup.bam -o ${PATH_PREFIX}.bw
+```
+## 5. Peak Calling (macs2)
+
+This is the final step, it computes the significant peak detected in the experiment. This step can be done in several way depending on the case.
+
+```bash
+# FORMAT can be BAM or BAMPE if the data is single-end or paired-end
+macs2 callpeak -t $BAM -f $FORMAT -g $ORG -n ${PREFIX} --outdir $OUTDIR/peaks # This is the default way, or narrow peak mode
+macs2 callpeak --broad -t $BAM -f $FORMAT -g $ORG -n ${PREFIX} --outdir $OUTDIR/peaks # with --broad, we enable the broad peak mode for wider marks
+
+# And if the experiment has input as control we have to use the argument -c, for example:
+macs2 callpeak -t $BAM -c $BAM_INPUT -f $FORMAT -g $ORG -n ${PREFIX} --outdir $OUTDIR/peaks
+```
+
