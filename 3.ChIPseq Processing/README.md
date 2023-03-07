@@ -58,6 +58,7 @@ Briefly the filtering has several steps:
 a.  Filtering unmapped, mate_is_unmapped, secondary and duplicates, and for paired-end read the properly paired
 
 ```bash
+FILT_ARG="'proper_pair and not unmapped and not mate_is_unmapped and not secondary_alignment and not duplicate'"
 sambamba view -h -t $THREADS -f bam -F $FILT_ARG $BAM > ${PATH_PREFIX}.clean.bam
 samtools stats ${PATH_PREFIX}.clean.bam > ${PATH_PREFIX}.2b_filt1.stats
 samtools flagstat ${PATH_PREFIX}.clean.bam > ${PATH_PREFIX}.3b_filt1.flagstat
