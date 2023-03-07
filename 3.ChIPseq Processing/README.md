@@ -41,10 +41,10 @@ Once the reads are cleaned from any adapters we can align them to the reference 
 bowtie2 -x $INDEX -1 $FASTQ1 -2 $FASTQ2 --very-sensitive -k 2 -t -p $THREADS -S $OUTDIR/$NAME.sam
 ```
 
-We obtained a sam file with all the reads aligned. Then we tranform the sam to bam and sort it, and we generate an index for the bam file, all these using both samtools and sambamba.
+We obtained a sam file with all the reads aligned. Then we transform the sam to bam and sort it, and we generate an index for the bam file, all these using both samtools and sambamba.
 
 ```bash
-samtools view -@ $THREADS -bS $OUTDIR/$NAME.sam > $OUTDIR/$NAME.bam"  >> $JOB
+samtools view -@ $THREADS -bS $OUTDIR/$NAME.sam > $OUTDIR/$NAME.bam
 sambamba sort -t $THREADS -o $OUTDIR/$NAME.sort.bam $OUTDIR/$NAME.bam
 sambamba index -t $THREADS -p $OUTDIR/$NAME.bam
 ```
