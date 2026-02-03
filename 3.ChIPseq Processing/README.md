@@ -31,11 +31,11 @@ The first step of the pipeline is the trimming of the reads to remove any possib
 trim_galore $FASTQ1 $FASTQ2 --output_dir $FASTQ_DIR --paired --basename $NAME -a $ADAPTERS -A $ADAPTERS --fastqc_args '--outdir $OUTDIR/quality' --cores $THREADS"
 ```
 
-With these optiones trim_galore will trim our reads and then perform the quality check in the trimmed fastq file. But it's recomended to perform a quality check before doing the trimming.
+With these options, trim_galore will trim our reads and then perform the quality check in the trimmed fastq file. But it's recommended to perform a quality check before doing the trimming.
 
 ## 2. Alignment (bowtie2)
 
-Once the reads are cleaned from any adapters we can align them to the reference genome, we use the same one we used for liCHi-C, GRCh38.
+Once the reads are cleaned from any adapters, we can align them to the reference genome, we use the same one we used for liCHi-C, GRCh38.
 
 ```bash
 bowtie2 -x $INDEX -1 $FASTQ1 -2 $FASTQ2 --very-sensitive -k 2 -t -p $THREADS -S $OUTDIR/$NAME.sam
@@ -51,9 +51,9 @@ sambamba index -t $THREADS -p $OUTDIR/$NAME.bam
 
 ## 3. Filtering (samtools and sambamba)
 
-The filtering steps is the part were we filter out reads based on different criteria. We follow the criteria established by the ENCODE Consortium in their Data Standards: [link](https://docs.google.com/document/d/1lG_Rd7fnYgRpSIqrIfuVlAz2dW1VaSQThzk836Db99c/edit#)
+The filtering steps are the part where we filter out reads based on different criteria. We follow the criteria established by the ENCODE Consortium in their Data Standards: [link](https://docs.google.com/document/d/1lG_Rd7fnYgRpSIqrIfuVlAz2dW1VaSQThzk836Db99c/edit#)
 
-Briefly the filtering has several steps:
+Briefly, the filtering has several steps:
 
 a.  Filtering unmapped, mate_is_unmapped, secondary and duplicates, and for paired-end read the properly paired
 
@@ -114,7 +114,7 @@ bamCoverage --binSize 10 -b ${PATH_PREFIX}.filt.nodup.bam -o ${PATH_PREFIX}.bw
 ```
 ## 5. Peak Calling (macs2)
 
-This is the final step, it computes the significant peak detected in the experiment. This step can be done in several way depending on the case.
+This is the final step, it computes the significant peak detected in the experiment. This step can be done in several ways depending on the case.
 
 ```bash
 # FORMAT can be BAM or BAMPE if the data is single-end or paired-end
