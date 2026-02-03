@@ -10,7 +10,7 @@ For more details, go to [Javierre et al., 2016](https://doi.org/10.1016/j.cell.2
 
 
 ## Credits
-The method and software was co-developed by [Chris Wallace](http://chr1swallace.github.io/) and [Olly Burren](http://ollyburren.github.io/), and presented in [Javierre et al., 2016](https://doi.org/10.1016/j.cell.2016.09.037).
+The method and software were co-developed by [Chris Wallace](http://chr1swallace.github.io/) and [Olly Burren](http://ollyburren.github.io/), and presented in [Javierre et al., 2016](https://doi.org/10.1016/j.cell.2016.09.037).
 
 The scripts in this repository have been adapted from the original ones from [CHIGP](https://github.com/ollyburren/CHIGP).
 
@@ -79,7 +79,7 @@ Use **5.ComputeGeneScore.R**. This script computes basic gene scores by integrat
 * frags - generateResourceFiles.R RData object of ensg genes with their associated PCHi-C interactions and all extra data found in peakmatrix (frags.by.ld.RData)
 * target.gene.cSNPs.only - T/F if T, only coding SNPs in target gene are included in analysis
 * include.interactions.only - T/F if switch that allows us to include promoter and coding snp component(s) so we can examine contribution of tissue specific interactions to the gene score. If TRUE, it will only use the component of the SNPs located in PIRs. If you want to use the three components, use FALSE.
-* decompose  - T/F switch allows us to compute geneScores for sets of tissues but also all indivdual tissues. Note that in this case if a set has one tissue its set name will be replaced with the tissue name so as to avoid duplication.
+* decompose  - T/F switch allows us to compute geneScores for sets of tissues but also all individual tissues. Note that in this case if a set has one tissue its set name will be replaced with the tissue name so as to avoid duplication.
 
 This script has to be run separately for each trait. As output, it will generate a table with the gene scores associated to each gene:
 disease, ensg, name, biotype, strand, baitCh, all_gene_score, coding_gene_score, cell_type_specific_gene_scores, promoter_gene_score	
