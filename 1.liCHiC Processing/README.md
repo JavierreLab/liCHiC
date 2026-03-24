@@ -36,7 +36,7 @@ To run HiCUP first we need to prepare several files: genome digest and bowtie2 i
 To generate the genome digest we need to know which restriction enzyme we are using, in our case we use HindIII which target sequence is A^AGCTT. To perform this step we used the ```hicup_digester``` function, which looks for the target sequence in the genome and generate all the restriction fragments for this specific restriction enzyme.
 
 ```bash
-hicup_digester --genome Human_GRCh37 --re1 A^AGCTT,HindIII *.fa
+hicup_digester --genome Human_GRCh38 --re1 A^AGCTT,HindIII *.fa
 ```
 
 * **Bowtie2 Index**
@@ -78,7 +78,7 @@ Bowtie2: /usr/local/bowtie2/bowtie2
 
 #Path to the reference genome indices
 #Remember to include the basename of the genome indices
-Index: /pathzº/Genomes/Human/GRCh37/Human_GRCh37
+Index: /pathzº/Genomes/Human/GRCh38/Human_GRCh38
 
 #Path to the genome digest file produced by hicup_digester
 Digest: Digest_Human_genome_HindIII_None_12-32-06_15-04-2021.txt
